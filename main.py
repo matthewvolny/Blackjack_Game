@@ -1,12 +1,11 @@
 import random
 
 from art import logo
+from deck import deck
 
 print(logo)
 
 play_game = input("Do you want to play a game of Blackjack? Type 'y' or 'n': ")
-
-deck = ["2H", "3H", "4H", "5H", "6H", "7H", "8H", "9H", "10H", "JH", "QH", "KH", "AH", "2D", "3D", "4D", "5D", "6D", "7D", "8D", "9D", "10D", "JD", "QD", "KD", "AD", "2C", "3C", "4C", "5C", "6C", "7C", "8C", "9C", "10C", "JC", "QC", "KC", "AC", "2S", "3S", "4S", "5S", "6S", "7S", "8S", "9S", "10S", "JS", "QS", "KS", "AS"]
 
 def shuffle(deck):
     for i in range(len(deck)):
@@ -16,6 +15,24 @@ def shuffle(deck):
         deck[i] = temp
 
 shuffle(deck)      
-    
+
+player_hand = []
+dealer_hand = []
+
+def deal_to_player(deck):
+    player_hand.append(deck.pop())
+
+def deal_to_dealer(deck):
+    dealer_hand.append(deck.pop())
+
+def deal_opening_hands():
+    deal_to_player(deck)
+    deal_to_dealer(deck)
+    deal_to_player(deck)
+    deal_to_dealer(deck)
+    print(f"Your cards: {player_hand}")
+    print(f"Dealer's cards {dealer_hand}")
+
+deal_opening_hands()
 # while play_game == 'y':
 #     print("game running")
