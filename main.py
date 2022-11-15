@@ -32,21 +32,28 @@ def calculateTotal(hand):
 
     total = 0
     
+    #move ace/s to last values in hand list
+    for i in range(0, len(hand["hand"])):
+        value = hand["hand"][i][0]
+        if value == 'A':
+            removed_ace = hand["hand"].pop(i)
+            hand["hand"].append(removed_ace)    
+
+    #score each card in hand
     for card in hand["hand"]:
-        if card[0] in base_cards:
-            total += int(card[0])
-        elif card[0] in face_cards:
+        value = card[0]
+        if value in base_cards:
+            total += int(value)
+        elif value in face_cards:
             total += 10
         else:
-            #ace condition
             if total + 11 > 21:
                 total += 1
             else:
                 total += 11          
     
-    print(total)
-
-
+    hand["total"] = total
+    
 def deal_opening_hands():
     deal_to_player(deck)
     deal_to_dealer(deck)
@@ -55,11 +62,40 @@ def deal_opening_hands():
     calculateTotal(player_hand)
     calculateTotal(dealer_hand)
     print(f"Your cards: {player_hand['hand']}")
+    print(player_hand["total"])
     print(f"Dealer's first card: {dealer_hand['hand'][0]}")
+    print(dealer_hand["total"])
 
 deal_opening_hands()
 
-# while play_game == 'y':
-#     play_game = input(f"Type 'y' to get another card, type 'n' to pass: ")
-#     if play_game == 'y':
-#         deal_to_player(deck)
+
+def assessHand(hand):
+    if hand["total"] > 21:
+        return False
+    elif hand["total"] == 21:
+        return True
+
+while play_game == 'y':
+    play_game = input(f"Type 'y' to get another card, type 'n' to pass: ")
+    if play_game == 'y':
+        deal_to_player(deck)
+        calculateTotal(player_hand)
+        if assessHand(player_hand):
+            print("You win!")
+            play_game = 'n'
+        elif not assessHand(player_hand):
+            print("You Bust!")
+            play_game = 'n'
+    else:
+        if dealer_hand["total"] > player_hand["total"]:
+            print("Dealer Wins!")
+        if calculateTotal(dealer_hand) <= 16:
+            deal_to_dealer(deck)
+            calculateTotal(dealer_hand)
+            if assessHand(dealer_hand):
+                print("You win!")
+                play_game = 'n'
+            elif not assessHand(dealer_hand):
+                print("You Bust!")
+                play_game = 'n'
+            
