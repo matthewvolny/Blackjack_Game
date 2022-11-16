@@ -29,7 +29,7 @@ while start_game == 'y':
 
     def calculateTotal(hand):
 
-        base_cards = ['2','3','4','5','6','7','8','9', "10"]
+        base_cards = ['2','3','4','5','6','7','8','9','10']
         face_cards = ['J', 'Q', 'K']
 
         total = 0
@@ -46,7 +46,7 @@ while start_game == 'y':
 
             value = card[0]
 
-            if card[0] == 1:
+            if card[0] == "1":
                 value = "10"
             
             if value in base_cards:
@@ -58,8 +58,7 @@ while start_game == 'y':
                     total += 1
                 else:
                     total += 11      
-            print("total after each card")            
-            print(total)
+
         hand["total"] = total
 
         return total
@@ -79,8 +78,6 @@ while start_game == 'y':
     deal_opening_hands()
 
     def assessHand(hand):
-        # print("in assess")
-        # print(type(hand["total"]))
         if hand["total"] > 21:
             return False
         elif hand["total"] == 21:
@@ -113,13 +110,13 @@ while start_game == 'y':
             print("Dealer Wins!")
             break
         if calculateTotal(dealer_hand) <= 16:
-                deal_to_dealer(deck)
-                calculateTotal(dealer_hand)
-                if assessHand(dealer_hand) == False:
-                    print(f"Dealer's cards: {dealer_hand['hand']}")
-                    print(calculateTotal(dealer_hand))
-                    print("Dealer Busts, you win!")
-                    break
+            deal_to_dealer(deck)
+            calculateTotal(dealer_hand)
+            if assessHand(dealer_hand) == False:
+                print(f"Dealer's cards: {dealer_hand['hand']}")
+                print(calculateTotal(dealer_hand))
+                print("Dealer Busts, you win!")
+                break
 
     start_game = input("Do you want to play another game of Blackjack? Type 'y' or 'n': ")
 
